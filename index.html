@@ -1,0 +1,149 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A network for professionals, researchers, students and builders.">
+  <title>Ingazi — Professional Network</title>
+  <link rel="stylesheet" href="{% static 'network/styles.css' %}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-mark">I</span><span>ingazi</span></a>
+  <nav aria-label="Main navigation">
+    <button class="nav-btn active" data-view="feed">Feed</button>
+    <button class="nav-btn" data-view="opportunities">Opportunities</button>
+    <button class="nav-btn" data-view="people">People</button>
+    <button class="nav-btn" data-view="trust">Trust centre</button>
+  </nav>
+  <div class="account-area"><span id="session-label">Visitor</span><button id="logout-btn" class="quiet-btn hidden">Sign out</button></div>
+</header>
+
+<main class="shell">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">KNOWLEDGE · WORK · OPPORTUNITY</p>
+      <h1>Build something<br><span>worth connecting for.</span></h1>
+      <p class="hero-copy">A professional space for people who learn, research, create and solve real problems.</p>
+    </div>
+    <div class="hero-panel">
+      <div class="hero-stat"><strong>01</strong><span>People before metrics</span></div>
+      <div class="hero-stat"><strong>02</strong><span>Evidence before enforcement</span></div>
+      <div class="hero-stat"><strong>03</strong><span>Appeals are part of trust</span></div>
+    </div>
+  </section>
+
+  <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+  <section id="auth-panel" class="auth-grid">
+    <article class="panel">
+      <div class="section-kicker">JOIN THE NETWORK</div><h2>Create an account</h2>
+      <form id="register-form" class="stack">
+        <label>Username<input name="username" minlength="3" required autocomplete="username"></label>
+        <label>Email<input name="email" type="email" required autocomplete="email"></label>
+        <div class="two-col">
+          <label>First name<input name="first_name"></label>
+          <label>Last name<input name="last_name"></label>
+        </div>
+        <label>Password<input name="password" type="password" minlength="10" required autocomplete="new-password"></label>
+        <button class="primary-btn" type="submit">Create account</button>
+      </form>
+    </article>
+    <article class="panel">
+      <div class="section-kicker">WELCOME BACK</div><h2>Sign in</h2>
+      <form id="login-form" class="stack">
+        <label>Username<input name="username" required autocomplete="username"></label>
+        <label>Password<input name="password" type="password" required autocomplete="current-password"></label>
+        <button class="primary-btn" type="submit">Sign in</button>
+      </form>
+      <p class="muted small">Prototype notice: this build uses development token authentication. Do not use a reused or sensitive password.</p>
+    </article>
+  </section>
+
+  <section id="app-grid" class="app-grid hidden">
+    <aside class="sidebar">
+      <div class="panel compact">
+        <div class="avatar" id="avatar-letter">G</div>
+        <h3 id="sidebar-name">Guest</h3>
+        <p id="sidebar-headline" class="muted">Sign in to publish and participate.</p>
+      </div>
+      <div class="panel compact side-links">
+        <button data-view="feed">Professional feed <span>→</span></button>
+        <button data-view="opportunities">Jobs & research <span>→</span></button>
+        <button data-view="people">Discover people <span>→</span></button>
+        <button data-view="trust">Reports & appeals <span>→</span></button>
+      </div>
+    </aside>
+
+    <section class="main-column">
+      <section class="view" id="view-feed">
+        <div class="section-heading"><div><div class="section-kicker">YOUR COMMUNITY</div><h2>Professional feed</h2></div><button class="outline-btn" id="refresh-feed">Refresh</button></div>
+        <article class="panel composer">
+          <h3>Share an idea or update</h3>
+          <form id="post-form" class="stack">
+            <textarea name="body" maxlength="5000" rows="4" placeholder="What are you learning, building or researching?" required></textarea>
+            <div class="form-end"><span class="muted small">Be useful. Be respectful. Credit sources.</span><button class="primary-btn" type="submit">Publish post</button></div>
+          </form>
+        </article>
+        <div id="feed-list" class="card-list"><div class="empty-state">Loading the latest posts…</div></div>
+      </section>
+
+      <section class="view hidden" id="view-opportunities">
+        <div class="section-heading"><div><div class="section-kicker">MOVE FORWARD</div><h2>Opportunities</h2></div><button class="outline-btn" id="refresh-opportunities">Refresh</button></div>
+        <article class="panel">
+          <h3>Publish an opportunity</h3>
+          <form id="opportunity-form" class="stack">
+            <label>Title<input name="title" maxlength="180" required></label>
+            <div class="two-col">
+              <label>Type<select name="kind"><option value="JOB">Job</option><option value="INTERNSHIP">Internship</option><option value="SCHOLARSHIP">Scholarship</option><option value="RESEARCH">Research</option><option value="FUNDING">Funding</option></select></label>
+              <label>Organisation<input name="organisation" maxlength="180" required></label>
+            </div>
+            <label>Location<input name="location" maxlength="120" placeholder="e.g. Kigali / Remote"></label>
+            <label>Description<textarea name="description" maxlength="10000" rows="4" required></textarea></label>
+            <label>Application URL<input name="application_url" type="url" placeholder="https://"></label>
+            <label>Deadline<input name="deadline" type="date"></label>
+            <div class="form-end"><span class="muted small">Only publish opportunities you can substantiate.</span><button class="primary-btn" type="submit">Publish opportunity</button></div>
+          </form>
+        </article>
+        <div id="opportunity-list" class="card-list"></div>
+      </section>
+
+      <section class="view hidden" id="view-people">
+        <div class="section-heading"><div><div class="section-kicker">KNOW WHO YOU WORK WITH</div><h2>Discover people</h2></div><button class="outline-btn" id="refresh-people">Refresh</button></div>
+        <div id="people-list" class="card-list"></div>
+      </section>
+
+      <section class="view hidden" id="view-trust">
+        <div class="section-kicker">ACCOUNTABILITY BY DESIGN</div><h2>Trust centre</h2>
+        <p class="muted">A report starts a review; it does not automatically prove wrongdoing. An appeal asks for a decision to be reconsidered.</p>
+        <div class="two-col">
+          <article class="panel">
+            <h3>Report an account</h3>
+            <form id="report-form" class="stack">
+              <label>Account ID<input name="target_user" type="number" min="1" required></label>
+              <label>Reason<select name="reason"><option>Impersonation</option><option>Fraud or scam</option><option>Harassment</option><option>Spam</option><option>Other policy concern</option></select></label>
+              <label>Details<textarea name="details" rows="4" maxlength="3000"></textarea></label>
+              <button class="primary-btn" type="submit">Submit report</button>
+            </form>
+          </article>
+          <article class="panel">
+            <h3>Submit an appeal</h3>
+            <form id="appeal-form" class="stack">
+              <label>Subject<input name="subject" maxlength="180" required placeholder="What decision are you challenging?"></label>
+              <label>What happened?<textarea name="explanation" rows="4" maxlength="5000" required></textarea></label>
+              <label>What outcome are you requesting?<input name="requested_resolution" maxlength="500" required></label>
+              <button class="primary-btn" type="submit">Submit appeal</button>
+            </form>
+          </article>
+        </div>
+        <div class="panel principle"><strong>Our design commitment</strong><p>Use proportionate safeguards, explain decisions where possible, preserve an audit trail and provide a meaningful review path. Never treat one weak signal as proof of abuse.</p></div>
+      </section>
+    </section>
+  </section>
+
+  <footer><span>INGAZI · EARLY PRODUCT PROTOTYPE</span><span>Designed for knowledge, work and opportunity.</span></footer>
+</main>
+<script src="{% static 'network/app.js' %}"></script>
+</body>
+</html>
